@@ -14,4 +14,3 @@ try {
 } catch (PDOException $e) {
     die("Błąd połączenia z bazą danych: " . $e->getMessage());
 }
-?>

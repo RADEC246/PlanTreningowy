@@ -13,7 +13,12 @@ $plans = $stmt->fetchAll();
 ?>
 
 <h2>Twoje plany</h2>
-<a href="plan_add.php">Dodaj nowy plan</a><br><br>
+
+<a href="plan_add.php">Dodaj nowy plan</a> |
+<a href="progress_add.php">Dodaj progres</a> |
+<a href="history.php">Historia progresu</a>
+
+<br><br>
 
 <?php foreach ($plans as $plan): ?>
     <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">

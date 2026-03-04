@@ -10,7 +10,6 @@ if (!isset($_SESSION['user_id'])) {
 if (!isset($_GET['plan_id'])) die("Nie podano planu.");
 $plan_id = (int)$_GET['plan_id'];
 
-// Pobranie dni treningowych
 $stmt = $pdo->prepare("SELECT * FROM workouts WHERE plan_id = ?");
 $stmt->execute([$plan_id]);
 $workouts = $stmt->fetchAll();
