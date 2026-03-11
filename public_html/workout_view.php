@@ -77,3 +77,4 @@ $workouts = $stmt->fetchAll();
         </ul>
     </div>
 <?php endforeach; ?>
+<link rel="stylesheet" href="style.css">

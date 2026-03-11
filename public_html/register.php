@@ -53,3 +53,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- Wysłanie formularza -->
     <button type="submit">Zarejestruj</button>
 </form>
+<link rel="stylesheet" href="style.css">	

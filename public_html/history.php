@@ -29,6 +29,7 @@ $stmt->execute([$_SESSION['user_id']]);
 // Pobieramy wszystkie wpisy do tablicy.
 $progress = $stmt->fetchAll();
 ?>
+<link rel="stylesheet" href="style.css">
 
 <!-- Nagłówek strony -->
 <h2>Historia progresu</h2>

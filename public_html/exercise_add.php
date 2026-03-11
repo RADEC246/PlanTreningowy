@@ -59,6 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 ?>
+<link rel="stylesheet" href="style.css">
 
 <!-- Formularz dodawania ćwiczenia do dnia treningowego -->
 <form method="POST">

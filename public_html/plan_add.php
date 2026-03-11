@@ -38,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+<link rel="stylesheet" href="style.css">
 
 <!-- Formularz dodania nowego planu -->
 <form method="POST">

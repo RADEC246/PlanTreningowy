@@ -24,6 +24,7 @@ $stmt->execute([$_SESSION['user_id']]);
 // Pobieramy wszystkie rekordy planów do tablicy.
 $plans = $stmt->fetchAll();
 ?>
+<link rel="stylesheet" href="style.css">
 
 <!-- Nagłówek widoku -->
 <h2>Twoje plany</h2>
@@ -35,6 +36,7 @@ $plans = $stmt->fetchAll();
 <a href="plan_add.php">Dodaj nowy plan</a> |
 <a href="progress_add.php">Dodaj progres</a> |
 <a href="history.php">Historia progresu</a>
+<a href="logout.php">Wyloguj</a>
 
 <br><br>
 

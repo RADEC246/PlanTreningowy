@@ -66,6 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo "Progres zapisany!";
 }
 ?>
+<link rel="stylesheet" href="style.css">
 
 <!-- Tytuł strony -->
 <h2>Dodaj progres</h2>

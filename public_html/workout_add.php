@@ -45,6 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+<link rel="stylesheet" href="style.css">
 
 <!-- Formularz dodania dnia treningowego -->
 <form method="POST">
