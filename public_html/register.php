@@ -21,19 +21,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Informujemy użytkownika o błędnym formacie emaila.
         echo "Nieprawidłowy email";
     } else {
-        // Haszujemy hasło przed zapisem do bazy.
-        // Nigdy nie zapisujemy haseł w czystym tekście.
-        // PASSWORD_DEFAULT wybiera aktualnie zalecany algorytm.
-        $hash = password_hash($password, PASSWORD_DEFAULT);
+        // Sprawdzamy, czy email nie jest już zarejestrowany.
+        $check = $pdo->prepare("SELECT COUNT(*) FROM users WHERE email = ?");
+        $check->execute([$email]);
 
-        // Prepared statement do bezpiecznego INSERT-a.
-        $stmt = $pdo->prepare("INSERT INTO users (email, password_hash, created_at) VALUES (?, ?, NOW())");
+        if ($check->fetchColumn() > 0) {
+            echo "Ten email jest już zajęty.";
+        } else {
+            // Haszujemy hasło przed zapisem do bazy.
+            // Nigdy nie zapisujemy haseł w czystym tekście.
+            // PASSWORD_DEFAULT wybiera aktualnie zalecany algorytm.
+            $hash = password_hash($password, PASSWORD_DEFAULT);
 
-        // Wykonanie zapytania z danymi użytkownika.
-        $stmt->execute([$email, $hash]);
+            // Prepared statement do bezpiecznego INSERT-a.
+            $stmt = $pdo->prepare("INSERT INTO users (email, password_hash, created_at) VALUES (?, ?, NOW())");
 
-        // Prosty komunikat sukcesu z linkiem do logowania.
-        echo "Rejestracja udana! <a href='login.php'>Zaloguj się</a>";
+            // Wykonanie zapytania z danymi użytkownika.
+            $stmt->execute([$email, $hash]);
+
+            // Prosty komunikat sukcesu z linkiem do logowania.
+            echo "Rejestracja udana! <a href='login.php'>Zaloguj się</a>";
+        }
     }
 }
 ?>

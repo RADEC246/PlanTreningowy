@@ -21,6 +21,25 @@ if (!isset($_GET['workout_id'])) die("Nie podano dnia treningowego.");
 $workout_id = (int)$_GET['workout_id'];
 $plan_id = (int)$_GET['plan_id'];
 
+// Weryfikujemy, czy trening należy do zalogowanego użytkownika.
+$workoutCheck = $pdo->prepare("
+    SELECT tp.user_id, w.plan_id
+    FROM workouts w
+    JOIN training_plans tp ON w.plan_id = tp.id
+    WHERE w.id = ?
+");
+$workoutCheck->execute([$workout_id]);
+$workoutOwner = $workoutCheck->fetch();
+
+if (!$workoutOwner || ((int)$workoutOwner['user_id'] !== (int)$_SESSION['user_id'])) {
+    die("Nie masz uprawnień do tego dnia treningowego.");
+}
+
+// Dodatkowa walidacja: plan_id w GET powinien zgadzać się z tym z bazy.
+if ($plan_id !== (int)$workoutOwner['plan_id']) {
+    die("Niepoprawny plan.");
+}
+
 // Obsługa formularza po wysłaniu metodą POST.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Pobieramy nazwę ćwiczenia.

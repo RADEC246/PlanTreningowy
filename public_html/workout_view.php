@@ -20,6 +20,15 @@ if (!isset($_GET['plan_id'])) die("Nie podano planu.");
 // Konwersja plan_id do liczby całkowitej.
 $plan_id = (int)$_GET['plan_id'];
 
+// Weryfikujemy właściciela planu przed wyświetleniem dni treningowych.
+$planCheck = $pdo->prepare("SELECT user_id FROM training_plans WHERE id = ?");
+$planCheck->execute([$plan_id]);
+$planOwner = $planCheck->fetchColumn();
+
+if (!$planOwner || ((int)$planOwner !== (int)$_SESSION['user_id'])) {
+    die("Nie masz dostępu do tego planu.");
+}
+
 // Pobieramy wszystkie dni treningowe (workouts) dla wskazanego planu.
 $stmt = $pdo->prepare("SELECT * FROM workouts WHERE plan_id = ?");
 

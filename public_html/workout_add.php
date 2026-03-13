@@ -21,6 +21,15 @@ if (!isset($_GET['plan_id'])) die("Nie podano planu.");
 // Rzutowanie na int ogranicza ryzyko podania nieoczekiwanego typu danych.
 $plan_id = (int)$_GET['plan_id'];
 
+// Weryfikujemy, czy plan należy do zalogowanego użytkownika.
+$planCheck = $pdo->prepare("SELECT user_id FROM training_plans WHERE id = ?");
+$planCheck->execute([$plan_id]);
+$planOwner = $planCheck->fetchColumn();
+
+if (!$planOwner || ((int)$planOwner !== (int)$_SESSION['user_id'])) {
+    die("Nieautoryzowany dostęp do planu.");
+}
+
 // Obsługa zapisu po wysłaniu formularza metodą POST.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Pobieramy nazwę dnia treningowego i przycinamy białe znaki.

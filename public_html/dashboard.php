@@ -23,6 +23,11 @@ $stmt->execute([$_SESSION['user_id']]);
 
 // Pobieramy wszystkie rekordy planów do tablicy.
 $plans = $stmt->fetchAll();
+
+$emailStmt = $pdo->prepare("SELECT email FROM users WHERE id = ?");
+$emailStmt->execute([$_SESSION['user_id']]);
+$currentEmail = $emailStmt->fetchColumn();
+$isAdmin = in_array($currentEmail, ADMIN_EMAILS, true);
 ?>
 <link rel="stylesheet" href="style.css">
 
@@ -37,6 +42,12 @@ $plans = $stmt->fetchAll();
 <a href="progress_add.php">Dodaj progres</a> |
 <a href="history.php">Historia progresu</a>
 <a href="logout.php">Wyloguj</a>
+<br>
+<a href="import_export.php">Import / eksport</a> |
+<a href="reports.php">Raporty</a>
+<?php if ($isAdmin): ?>
+ | <a href="admin.php">Panel admina</a>
+<?php endif; ?>
 
 <br><br>
 

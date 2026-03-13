@@ -47,6 +47,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Dobra praktyka: dodatkowo walidować format daty po stronie backendu.
     $date = $_POST['workout_date'];
 
+    // Weryfikujemy, czy wybrane ćwiczenie należy do zalogowanego użytkownika.
+    $exerciseCheck = $pdo->prepare("
+        SELECT 1
+        FROM exercises e
+        JOIN workout_exercises we ON we.exercise_id = e.id
+        JOIN workouts w ON we.workout_id = w.id
+        JOIN training_plans tp ON w.plan_id = tp.id
+        WHERE e.id = ? AND tp.user_id = ?
+        LIMIT 1
+    ");
+    $exerciseCheck->execute([$exercise_id, $_SESSION['user_id']]);
+
+    if (!$exerciseCheck->fetch()) {
+        die("Nie masz prawa zapisywać progresu dla tego ćwiczenia.");
+    }
+
     // Przygotowujemy zapytanie INSERT do tabeli progress.
     $stmt = $pdo->prepare("
         INSERT INTO progress (user_id, exercise_id, weight, reps, workout_date)
